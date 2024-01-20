@@ -1,58 +1,72 @@
 import os
 import shutil
 
-class DirectoryManager:
-    def __init__(self, base_directory="."):
-        self.base_directory = base_directory
 
-    # def create_directory(self, directory_name):
-    #     path = os.path.join(self.base_directory, directory_name)
-    #     os.makedirs(path, exist_ok=True)
-    #     return f"Directorio {directory_name} creado."
+class Directory:
+    def __init__(self, path):
+        self.path = path
 
-    def list_directories(self):
-        directories = [d for d in os.listdir(self.base_directory) if os.path.isdir(os.path.join(self.base_directory, d))]
-        return directories
+    def list_files(self):
+        """
+        List files in the directory.
 
-    # def copy_directory(self, source_directory, destination_directory):
-    #     source_path = os.path.join(self.base_directory, source_directory)
-    #     destination_path = os.path.join(self.base_directory, destination_directory)
-    #     shutil.copytree(source_path, destination_path)
-    #     return f"Directorio {source_directory} copiado a {destination_directory}."
+        Returns:
+            list: List of filenames in the directory.
+        """
+        files = [f for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f))]
+        return files
 
-    # def move_directory(self, source_directory, destination_directory):
-    #     source_path = os.path.join(self.base_directory, source_directory)
-    #     destination_path = os.path.join(self.base_directory, destination_directory)
-    #     shutil.move(source_path, destination_path)
-    #     return f"Directorio {source_directory} movido a {destination_directory}."
+    def create_file(self, name):
+        """
+        Create a new file in the directory.
 
-    # def delete_directory(self, directory_name):
-    #     path = os.path.join(self.base_directory, directory_name)
-    #     try:
-    #         shutil.rmtree(path)
-    #         return f"Directorio {directory_name} eliminado."
-    #     except FileNotFoundError:
-    #         return f"El directorio {directory_name} no existe."
+        Args:
+            name (str): Name of the file to be created.
+        """
+        file_path = os.path.join(self.path, name)
+        with open(file_path, 'w') as file:
+            file.write('')
 
-# Ejemplo de uso
-directory_manager = DirectoryManager("chatbot")
+    def create_directory(self, name):
+        """
+        Create a new directory in the current directory.
 
-# Crear directorio
-# directory_manager.create_directory("mi_subdirectorio")
+        Args:
+            name (str): Name of the directory to be created.
+        """
+        directory_path = os.path.join(self.path, name)
+        os.makedirs(directory_path)
 
-# Listar directorios en el directorio principal
-directories_in_base_directory = directory_manager.list_directories()
-print("Directorios en el directorio principal:", directories_in_base_directory)
+    def rename_directory(self, new_name):
+        """
+        Rename the current directory.
 
-# Copiar directorio
-# directory_manager.copy_directory("mi_subdirectorio", "copia_mi_subdirectorio")
+        Args:
+            new_name (str): New name for the directory.
+        """
+        new_path = os.path.join(os.path.dirname(self.path), new_name)
+        os.rename(self.path, new_path)
+        self.path = new_path
 
-# Mover directorio
-# directory_manager.move_directory("copia_mi_subdirectorio", "mi_subdirectorio_copiado")
+    def search_file(self, name):
+        """
+        Search for files that contain the specified name.
 
-# Listar directorios después de mover
-# directories_after_move = directory_manager.list_directories()
-# print("Directorios después de mover:", directories_after_move)
+        Args:
+            name (str): Name or part of the name to search for.
 
-# Eliminar directorio
-# directory_manager.delete_directory("mi_subdirectorio_copiado")
+        Returns:
+            list: List of filenames that match the search criteria.
+        """
+        matches = [f for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f)) and name.lower() in f.lower()]
+        return matches
+
+    def move_file(self, file_path, destination_path):
+        """
+        Move a file to a new destination.
+
+        Args:
+            file_path (str): Path of the file to be moved.
+            destination_path (str): Destination path for the file.
+        """
+        shutil.move(file_path, os.path.join(destination_path, os.path.basename(file_path)))

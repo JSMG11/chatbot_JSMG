@@ -1,7 +1,7 @@
 import nltk
 from modules.nl_processing import Nlp
-from modules.directory import Directory
-from modules.file import File
+from modules.directory_operations import Directory
+from modules.file_operations import File
 import os
 from charts import chart
 from data import manage_db
