@@ -1,6 +1,6 @@
 import os
 
-
+#renombre, eliminacion y cambio de permisos de archivo
 class File:
     def __init__(self, path):
         self.path = path

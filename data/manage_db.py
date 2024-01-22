@@ -23,11 +23,11 @@ def escribir_bd():
     # Construye la URL de conexión
     #mysqlConnString = 'mysql://usrProyecto:password@ec2-3-226-169-30.compute-1.amazonaws.com/DBPR202120'
     
-    database_name = os.getenv("TEST")
+    database_name = os.getenv("chatbot")
     secret_database = os.getenv("admin")
     #print(f"database: {database_name}")
     #print(f"Secret: {secret_database}")
-    mysqlConnString = f"mysql+pymysql://root:{secret_database}@localhost:3306/{database_name}"
+    mysqlConnString = f"mysql+pymysql://root:admin@localhost:3306/chatbot"
 
     ### database connection
     # Crea el motor de SQLAlchemy con la URL de conexión
@@ -44,15 +44,15 @@ def escribir_bd():
                 #Desempaqueta los valores de la fila
                                 
                 (
-                    nivel_entidad, nombre_entidad, nit_entidad, departamento_entidad, municipio_entidad, 
-                    estado_proceso, modalidad, objeto_contrato, objeto_proceso, tipo_de_contrato, 
-                    numero_contrato, numero_proceso, valor_contrato, nombre_razon_social, url_contrato,
-                    origen, documento_proveedor, fecha_firma, fecha_inicio, fecha_fin, 
-                    year_firma, month_firma, fecha_firma_yyyymm
+                    nivel_entidad,nombre_de_la_entidad,nit_de_la_entidad,departamento_entidad,municipio_entidad,
+                    estado_del_proceso,modalidad_de_contrataci_n,objeto_a_contratar,objeto_del_proceso,tipo_de_contrato, 
+                    numero_del_contrato,numero_de_proceso,valor_contrato,nom_raz_social_contratista,url_contrato,
+                    origen,documento_proveedor,fecha_de_firma_del_contrato,fecha_inicio_ejecucion,fecha_fin_ejecucion, 
+                    year_firma,month_firma,fecha_firma_yyyymm
                 ) = fila
                 
                 
-                fecha_firma_date = datetime.strptime(fecha_firma, "%m/%d/%Y").strftime("%Y-%m-%d")
+                fecha_firma_date = datetime.strptime(fecha_de_firma_del_contrato, "%m/%d/%Y").strftime("%Y-%m-%d")
                 documento_proveedor_str =  "'"+ str(documento_proveedor) + "'"
                 year_firma_str = "'"+ str(year_firma) + "'"
                 month_firma_str = "'"+ str(month_firma) + "'"
@@ -67,10 +67,10 @@ def escribir_bd():
                         origen, documento_proveedor, fecha_firma, fecha_inicio, fecha_fin, 
                         year_firma, month_firma, fecha_firma_yyyymm
                     ) VALUES (
-                        '{nivel_entidad}', '{nombre_entidad}', '{nit_entidad}', '{departamento_entidad}', '{municipio_entidad}',
-                        '{estado_proceso}', '{modalidad}', '{objeto_contrato}', '{objeto_proceso}', '{tipo_de_contrato}',
-                        '{numero_contrato}', '{numero_proceso}', {float(valor_contrato)}, '{nombre_razon_social}', '{url_contrato}',
-                        '{origen}', {documento_proveedor_str}, '{fecha_firma_date}', '{fecha_inicio}', '{fecha_fin}', 
+                        '{nivel_entidad}', '{nombre_de_la_entidad}', '{nit_de_la_entidad}', '{departamento_entidad}', '{municipio_entidad}',
+                        '{estado_del_proceso}', '{modalidad_de_contrataci_n}', '{objeto_a_contratar}', '{objeto_del_proceso}', '{tipo_de_contrato}',
+                        '{numero_del_contrato}', '{numero_de_proceso}', {float(valor_contrato)}, '{nom_raz_social_contratista}', '{url_contrato}',
+                        '{origen}', {documento_proveedor_str}, '{fecha_firma_date}', '{fecha_inicio_ejecucion}', '{fecha_fin_ejecucion}', 
                         {year_firma_str}, {month_firma_str}, '{fecha_firma_yyyymm}'
                     )
                 """)
