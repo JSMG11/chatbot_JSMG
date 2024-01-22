@@ -98,6 +98,7 @@ def run_chatbot(chat):
                     permissions = int(" ".join(tokens[to_index + 1:]), 8)
                     file = File(os.path.join(chat.directory.path, name))
                     file.change_permissions(permissions)
+                    #ingrese el nit para generar la grafica example: graphic entity "nit"
                 elif 'graphic' in user_response:
                     entity_select = tokens[tokens.index('entity') + 1]
                     chart_generation.graph_chart(entity_select)
