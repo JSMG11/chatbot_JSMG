@@ -109,7 +109,7 @@ def run_chatbot(chat):
         
         
 if __name__ == '__main__':
-    
+    #carpeta en la que se manipulan archivos y carpetas
     directory_path = r'C:\Users\jeans\Documents\chatbot\data\data_test'
 
     #obtener la ruta absoluta del directorio.
