@@ -25,8 +25,12 @@ class File:
     def change_permissions(self, permissions):
         """
         Change the file permissions.
-
+    
         Args:
             permissions (int): New permissions to set for the file.
         """
-        os.chmod(self.path, permissions)
+        try:
+            os.chmod(self.path, permissions)
+            print(f"Permisos cambiados correctamente para {self.path}")
+        except OSError as e:
+            print(f"Error al cambiar permisos para {self.path}: {e}")

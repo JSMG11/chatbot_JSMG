@@ -56,7 +56,7 @@ def graph_chart(nit):
     plt.xlabel('Fecha de Firma del Contrato')
     plt.ylabel('Valor del Contrato')
     plt.title(f'Gráfico de Barras para NIT {nit}')
-    plt.xticks(rotation=90)# Puedes ajustar el valor para obtener el espaciado deseado
+    plt.xticks(rotation=90)
     plt.xticks(range(0, len(fechas), 1))
     plt.tight_layout()
 
