@@ -23,8 +23,8 @@ def escribir_bd():
     # Construye la URL de conexión
     #mysqlConnString = 'mysql://usrProyecto:password@ec2-3-226-169-30.compute-1.amazonaws.com/DBPR202120'
     
-    database_name = os.getenv("chatbot")
-    secret_database = os.getenv("admin")
+    # database_name = os.getenv("chatbot")
+    # secret_database = os.getenv("admin")
     #print(f"database: {database_name}")
     #print(f"Secret: {secret_database}")
     mysqlConnString = f"mysql+pymysql://root:admin@localhost:3306/chatbot"
