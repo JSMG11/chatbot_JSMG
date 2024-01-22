@@ -3,7 +3,7 @@ from modules.nl_processing import Nlp
 from modules.directory_operations import Directory
 from modules.file_operations import File
 import os
-from charts import chart
+from charts import chart_generation
 from data import manage_db
 
 
@@ -20,7 +20,25 @@ def run_chatbot(chat):
 
     try:
         flag = True
-        chat.talk_to_client(f"My name is {chat.BOT_NAME}. I will answer your queries about file and directory manipulation .")
+        print("                __________")
+        print("         ______/ ________ \______")
+        print("       _/      ____________      \_")
+        print("     _/____________    ____________\_")
+        print("   */  ___________ \  / ___________  \*")
+        print("  */  /XXXXXXXXXXX\ \/ /XXXXXXXXXXX\  \*")
+        print(" */  /############/    \############\  \*")
+        print("  |  \XXXXXXXXXXX/ _  _ \XXXXXXXXXXX/  |")
+        print("__|\_____   ___   //  \\   ___   _____/|__")
+        print("[_       \     \  X    X  /     /       _]")
+        print("__|     \ \                    / /     |__")
+        print("[____  \ \ \   ____________   / / /  ____]")
+        print("     \  \ \ \/||.||.||.||.||\/ / /  /")
+        print("      \_ \ \  ||.||.||.||.||  / / _/")
+        print("        \ \   ||.||.||.||.||   / /")
+        print("         \_   ||_||_||_||_||   _/")
+        print("           \     ........     /")
+        print("            \________________/  \n")
+        chat.talk_to_client(f"Hi!, my name is {chat.BOT_NAME}. I will answer your queries about file and directory manipulation .")
         while flag:
             chat.talk_to_client("Please type a request about files and directories. If you want to exit, type Bye!")
             user_response = input()
@@ -44,8 +62,10 @@ def run_chatbot(chat):
                     name = tokens[tokens.index('directory') + 1]
                     chat.directory.create_directory(name)
                 elif 'rename directory' in user_response:
+                    old_name = tokens[tokens.index('directory') + 1]
                     new_name = tokens[tokens.index('to') + 1]
-                    chat.directory.rename_directory(new_name)   
+                    directory = Directory(os.path.join(chat.directory.path, old_name))
+                    directory.rename_directory(os.path.join(chat.directory.path, new_name))   
                 elif 'rename' in user_response:
                     old_name = tokens[tokens.index('rename') + 1]
                     new_name = tokens[tokens.index('to') + 1]
@@ -57,10 +77,9 @@ def run_chatbot(chat):
                     file.delete()
                 elif 'search' in user_response or 'find' in user_response or 'lookup' in user_response:
                     search_keywords = ['search', 'find', 'lookup']
-                    #name = tokens[tokens.index('search') + 1]
                     name = tokens[tokens.index(next((word for word in tokens if word in search_keywords), None)) + 1] if any(word in tokens for word in search_keywords) else None
-                    matches = chat.directory.search_file(name)
-                    print( f'Se encontraron los siguientes archivos: {", ".join(matches)}')
+                    matches = chat.directory.search_file_recursive(name)
+                    print(f'Se encontraron los siguientes archivos: {", ".join(matches)}')
                 elif 'move file' in user_response:
                     tokens = user_response.split()
                     # Encontrar los índices de las palabras clave "file" y "to"
@@ -68,9 +87,6 @@ def run_chatbot(chat):
                     to_index = tokens.index("to")
                     file_path = " ".join(tokens[move_index + 1:to_index])
                     destination_path = " ".join(tokens[to_index + 1:])
-
-                    print(file_path)
-                    print(destination_path)
                     chat.directory.move_file(file_path, destination_path)
                 elif 'change permissions' in user_response:
                     tokens = user_response.split()
@@ -84,7 +100,7 @@ def run_chatbot(chat):
                     file.change_permissions(permissions)
                 elif 'graphic' in user_response:
                     entity_select = tokens[tokens.index('entity') + 1]
-                    chart.graph_chart(entity_select)
+                    chart_generation.graph_chart(entity_select)
                 elif 'data base' in user_response:
                     manage_db.escribir_bd()
     except LookupError as err:
@@ -93,8 +109,7 @@ def run_chatbot(chat):
         
 if __name__ == '__main__':
     
-    directory_path = r'D:\AM\chatbot\data\data_test'
-    #print(directory_path)
+    directory_path = r'C:\Users\jeans\Documents\chatbot\data\data_test'
 
     #obtener la ruta absoluta del directorio.
     absolute_path = os.path.abspath(directory_path)
@@ -103,7 +118,7 @@ if __name__ == '__main__':
     directory = Directory(absolute_path)
     
     #Ruta con corpus usado para entrenar el modelo
-    path_corpus = 'D:\\AM\\chatbot\\modules\\files_directories.txt'
+    path_corpus = 'C:\\Users\\jeans\\Documents\\chatbot\\modules\\files_directories.txt'
     
     #Instanciando objeto de tipo Nlp
     chatbot = Nlp(directory, path_corpus)

@@ -2,19 +2,22 @@ import os
 import shutil
 
 
+
 class Directory:
     def __init__(self, path):
         self.path = path
 
     def list_files(self):
         """
-        List files in the directory.
+        List files and directories in the directory.
 
         Returns:
-            list: List of filenames in the directory.
+            list: List of filenames and directory names in the directory.
         """
-        files = [f for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f))]
-        return files
+        contents = os.listdir(self.path)
+        files_and_directories = [content for content in contents if os.path.exists(os.path.join(self.path, content))]
+        return files_and_directories
+
 
     def create_file(self, name):
         """
@@ -38,19 +41,21 @@ class Directory:
         os.makedirs(directory_path)
 
     def rename_directory(self, new_name):
+        
         """
         Rename the current directory.
 
         Args:
             new_name (str): New name for the directory.
         """
+        # Obtenemos el nuevo path del directorio
         new_path = os.path.join(os.path.dirname(self.path), new_name)
         os.rename(self.path, new_path)
         self.path = new_path
 
-    def search_file(self, name):
+    def search_file_recursive(self, name):
         """
-        Search for files that contain the specified name.
+        Search for files that contain the specified name recursively in subdirectories.
 
         Args:
             name (str): Name or part of the name to search for.
@@ -58,7 +63,11 @@ class Directory:
         Returns:
             list: List of filenames that match the search criteria.
         """
-        matches = [f for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f)) and name.lower() in f.lower()]
+        matches = []
+        for root, dirs, files in os.walk(self.path):
+            for file in files:
+                if name.lower() in file.lower():
+                    matches.append(file)
         return matches
 
     def move_file(self, file_path, destination_path):

@@ -17,7 +17,7 @@ class Nlp:
         self.sent_tokens = []
         self.GREETING_INPUTS = ("hi", "hello", "greetings", "sup", "what's up", "hey")
         self.GREETING_RESPONSES = ["hey", "hi","*nods*", "hi there", "hello", "I am glad you are chatting with me"]
-        self.BOT_NAME = "Fer-Bot"
+        self.BOT_NAME = "Data-BOT"
         self.directory = directory
         self.path_corpus = path_corpus
 
@@ -58,7 +58,7 @@ class Nlp:
         return [lemmer.lemmatize(token) for token in tokens]
 
     def lem_normalize(self, text):
-               
+
         remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
         
         #word_tokenize --> divide un texto o una oración en una lista de palabras o tokens individuales.

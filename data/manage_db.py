@@ -23,11 +23,11 @@ def escribir_bd():
     # Construye la URL de conexión
     #mysqlConnString = 'mysql://usrProyecto:password@ec2-3-226-169-30.compute-1.amazonaws.com/DBPR202120'
     
-    database_name = os.getenv("DATABASE_URL")
-    secret_database = os.getenv("DATABASE_KEY")
+    database_name = os.getenv("TEST")
+    secret_database = os.getenv("admin")
     #print(f"database: {database_name}")
     #print(f"Secret: {secret_database}")
-    mysqlConnString = f"mysql+pymysql://root:{secret_database}@127.0.0.1:3306/{database_name}"
+    mysqlConnString = f"mysql+pymysql://root:{secret_database}@localhost:3306/{database_name}"
 
     ### database connection
     # Crea el motor de SQLAlchemy con la URL de conexión
@@ -35,7 +35,7 @@ def escribir_bd():
 
     # Abre y lee el archivo CSV
     try:
-        with open('D:\AM\chatbot\data\data_et\data_processed.csv', 'r') as archivo_csv:
+        with open(r'C:\Users\jeans\Documents\chatbot\data\data_et\data_processed.csv', 'r') as archivo_csv:
             csv_reader = csv.reader(archivo_csv)
             next(csv_reader)  # Omite la primera fila si contiene encabezados
 
